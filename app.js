@@ -3,7 +3,7 @@ const urlParams = new URLSearchParams(window.location.search);
 
 const CONFIG = {
     name: urlParams.get('name') || 'Lezzet Restoran',
-    wa: urlParams.get('wa') || '905000000000',
+    wa: urlParams.get('wa') || '905334020724',
     glink: urlParams.get('glink') || 'https://maps.google.com'
 };
 
