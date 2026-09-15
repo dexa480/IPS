@@ -1,0 +1,251 @@
+/* --- BEYAZ / GÜVENİLİR GOOGLE TEMASI --- */
+:root {
+    --bg-body: #f8fafc;
+    --card-bg: #ffffff;
+    --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --star-default: #cbd5e1;
+    --star-active: #fbbf24;
+    --primary-btn: #25d366; /* WhatsApp Yeşili */
+    --radius-lg: 20px;
+    --radius-md: 12px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    min-height: 100vh;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Google Güvenlik Rozeti */
+.google-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #ffffff;
+    padding: 8px 16px;
+    border-radius: 30px;
+    margin: 0 auto 16px auto;
+    width: fit-content;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+}
+
+.google-badge span {
+    font-size: 13px;
+    font-weight: 500;
+    color: #475569;
+}
+
+/* Beyaz Kart */
+.card {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: 32px 24px;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+    border: 1px solid #e2e8f0;
+}
+
+/* Profil / Logo Alanı */
+.brand-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px auto;
+}
+
+.brand-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--text-main);
+}
+
+.sub-title {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin-bottom: 24px;
+}
+
+/* Yıldız Butonları */
+.stars-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.star-btn {
+    background: none;
+    border: none;
+    font-size: 42px;
+    color: var(--star-default);
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.2s ease;
+    padding: 4px;
+    user-select: none;
+}
+
+.star-btn:active {
+    transform: scale(1.25);
+}
+
+.star-btn.active {
+    color: var(--star-active);
+}
+
+/* Onay Buton Alanı */
+.submit-wrapper {
+    margin-top: 8px;
+    margin-bottom: 16px;
+    transition: all 0.3s ease;
+}
+
+.submit-wrapper.hidden {
+    display: none;
+    opacity: 0;
+}
+
+.btn-submit-rating {
+    width: 100%;
+    background: #4285F4; /* Google Mavisi */
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(66, 133, 244, 0.25);
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    animation: fadeIn 0.3s ease;
+}
+
+.btn-submit-rating:active {
+    transform: scale(0.98);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.hint-text {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Modal / Kriz Önleme Pop-up */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 1000;
+}
+
+.modal-backdrop.hidden {
+    display: none;
+}
+
+.modal-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 380px;
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header h2 {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #dc2626;
+}
+
+.modal-header p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    line-height: 1.4;
+}
+
+.form-group {
+    margin-bottom: 14px;
+}
+
+textarea {
+    width: 100%;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: var(--radius-md);
+    padding: 12px;
+    color: var(--text-main);
+    font-size: 14px;
+    resize: none;
+    outline: none;
+}
+
+textarea:focus {
+    border-color: #2563eb;
+    background: #ffffff;
+}
+
+.btn-primary {
+    width: 100%;
+    background: var(--primary-btn);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 8px;
+}
+
+.btn-secondary {
+    width: 100%;
+    background: transparent;
+    color: var(--text-muted);
+    border: none;
+    padding: 8px;
+    font-size: 13px;
+    cursor: pointer;
+}
