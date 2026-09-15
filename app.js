@@ -3,11 +3,12 @@ const urlParams = new URLSearchParams(window.location.search);
 
 const CONFIG = {
     name: urlParams.get('name') || 'Lezzet Restoran',
-    wa: urlParams.get('wa') || '905000000000',
+    wa: urlParams.get('wa') || '905334020724',
     glink: urlParams.get('glink') || 'https://maps.google.com'
 };
 
-const STORAGE_KEY = `ips_voted_${CONFIG.name.replace(/\s+/g, '_')}`;
+// Mobil uyumlu güvenli hafıza anahtarı
+const STORAGE_KEY = 'ips_voted_' + encodeURIComponent(CONFIG.name);
 
 // --- DOM ELEMANLARI ---
 const brandNameEl = document.getElementById('brand-name');
@@ -27,17 +28,39 @@ const closeModalBtn = document.getElementById('close-modal-btn');
 
 let selectedRating = 0;
 
-// SAYFA YÜKLENDİĞİNDE HAFIZA KONTROLÜ
+// SAYFA YÜKLENDİĞİNDE MOBİL & COOKIE KONTROLÜ
 document.addEventListener('DOMContentLoaded', () => {
     if (brandNameEl) {
         brandNameEl.textContent = CONFIG.name;
     }
 
-    // Daha önce oy kullanılmış mı kontrol et
-    if (localStorage.getItem(STORAGE_KEY)) {
+    // Hem LocalStorage hem Cookie kontrolü
+    if (checkIfVoted()) {
         showAlreadyVotedState();
     }
 });
+
+// Mobil Çerez ve LocalStorage Çift Yönlü Kontrolü
+function checkIfVoted() {
+    try {
+        const localData = localStorage.getItem(STORAGE_KEY);
+        const cookieData = document.cookie.split('; ').find(row => row.startsWith(STORAGE_KEY + '='));
+        return localData === 'true' || !!cookieData;
+    } catch (e) {
+        return false;
+    }
+}
+
+// Çift Yönlü Kayıt (Mobil Uyumlu)
+function markAsVoted() {
+    try {
+        localStorage.setItem(STORAGE_KEY, 'true');
+    } catch (e) {}
+
+    // Mobil Safari/Chrome için 1 yıllık Çerez yedeği
+    const expires = new Date(Date.now() + 365 * 86400000).toUTCString();
+    document.cookie = `${STORAGE_KEY}=true; expires=${expires}; path=/; SameSite=Lax`;
+}
 
 function showAlreadyVotedState() {
     if (ratingCard) ratingCard.classList.add('hidden');
@@ -47,10 +70,6 @@ function showAlreadyVotedState() {
             votedBrandSub.textContent = `"${CONFIG.name}" işletmesini daha önce değerlendirdiniz.`;
         }
     }
-}
-
-function markAsVoted() {
-    localStorage.setItem(STORAGE_KEY, Date.now().toString());
 }
 
 // Yıldız Tıklama
@@ -83,7 +102,7 @@ if (submitRatingBtn) {
     submitRatingBtn.addEventListener('click', () => {
         if (selectedRating === 0) return;
 
-        // Oy kullanıldı olarak hafızaya kaydet
+        // Anında hafızaya kaydet
         markAsVoted();
 
         if (selectedRating === 1) {
@@ -96,7 +115,7 @@ if (submitRatingBtn) {
             
             setTimeout(() => {
                 window.location.href = CONFIG.glink;
-            }, 400);
+            }, 500);
         }
     });
 }
@@ -108,6 +127,8 @@ if (crisisForm) {
         
         const userMsg = crisisMessage.value.trim();
         if (!userMsg) return;
+
+        markAsVoted();
 
         const fullMessage = `⚠️ *OLUMSUZ MÜŞTERİ BİLDİRİMİ*\n\n` +
                             `🏢 *İşletme:* ${CONFIG.name}\n` +
@@ -121,7 +142,6 @@ if (crisisForm) {
         crisisModal.classList.add('hidden');
         crisisForm.reset();
         
-        // Kriz mesajı sonrası oy kullanıldı ekranına geçir
         showAlreadyVotedState();
     });
 }
