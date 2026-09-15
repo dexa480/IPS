@@ -66,6 +66,10 @@ body {
     border: 1px solid #e2e8f0;
 }
 
+.card.hidden {
+    display: none;
+}
+
 /* Profil / Logo Alanı */
 .brand-avatar {
     width: 72px;
@@ -78,6 +82,22 @@ body {
     align-items: center;
     justify-content: center;
     margin: 0 auto 16px auto;
+}
+
+/* Başarılı / Zaten Oy Kullanıldı Rozeti */
+.success-icon-badge {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: #25d366;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 auto 16px auto;
+    box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
 }
 
 .brand-title {
@@ -135,7 +155,7 @@ body {
 
 .btn-submit-rating {
     width: 100%;
-    background: #4285F4; /* Google Mavisi */
+    background: #4285F4;
     color: #ffffff;
     border: none;
     border-radius: var(--radius-md);

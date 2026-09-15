@@ -24,9 +24,8 @@
             <span>Google Değerlendirme Sistemi</span>
         </div>
 
-        <!-- İşletme Kartı -->
-        <div class="card">
-            <!-- İşletme Logo / Google İkon Alanı -->
+        <!-- İşletme Kartı (Değerlendirme Formu) -->
+        <div id="rating-card" class="card">
             <div class="brand-avatar" id="brand-avatar-container">
                 <svg viewBox="0 0 24 24" width="38" height="38">
                     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -48,7 +47,7 @@
                 <button class="star-btn" data-value="5" aria-label="5 Yıldız">★</button>
             </div>
 
-            <!-- Onay Buton Alanı (Yıldız seçildiğinde görünür) -->
+            <!-- Onay Buton Alanı -->
             <div id="submit-wrapper" class="submit-wrapper hidden">
                 <button id="submit-rating-btn" class="btn-submit-rating">
                     <span id="selected-star-count">5</span> Yıldız İle Gönder
@@ -56,6 +55,16 @@
             </div>
 
             <p id="feedback-hint" class="hint-text">Yıldızlara dokunun</p>
+        </div>
+
+        <!-- Zaten Değerlendirildi Kartı (Varsayılan Gizli) -->
+        <div id="already-voted-card" class="card hidden">
+            <div class="success-icon-badge">
+                <span>✓</span>
+            </div>
+            <h1 class="brand-title">Değerlendirmeniz Alındı</h1>
+            <p id="voted-brand-sub" class="sub-title">Bu işletmeyi daha önce değerlendirdiniz.</p>
+            <p class="hint-text">Geri bildiriminiz ve desteğiniz için teşekkür ederiz!</p>
         </div>
     </main>
 

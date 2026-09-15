@@ -3,12 +3,18 @@ const urlParams = new URLSearchParams(window.location.search);
 
 const CONFIG = {
     name: urlParams.get('name') || 'Lezzet Restoran',
-    wa: urlParams.get('wa') || '905334020724',
+    wa: urlParams.get('wa') || '905000000000',
     glink: urlParams.get('glink') || 'https://maps.google.com'
 };
 
+const STORAGE_KEY = `ips_voted_${CONFIG.name.replace(/\s+/g, '_')}`;
+
 // --- DOM ELEMANLARI ---
 const brandNameEl = document.getElementById('brand-name');
+const ratingCard = document.getElementById('rating-card');
+const alreadyVotedCard = document.getElementById('already-voted-card');
+const votedBrandSub = document.getElementById('voted-brand-sub');
+
 const starBtns = document.querySelectorAll('.star-btn');
 const submitWrapper = document.getElementById('submit-wrapper');
 const submitRatingBtn = document.getElementById('submit-rating-btn');
@@ -21,11 +27,31 @@ const closeModalBtn = document.getElementById('close-modal-btn');
 
 let selectedRating = 0;
 
+// SAYFA YÜKLENDİĞİNDE HAFIZA KONTROLÜ
 document.addEventListener('DOMContentLoaded', () => {
     if (brandNameEl) {
         brandNameEl.textContent = CONFIG.name;
     }
+
+    // Daha önce oy kullanılmış mı kontrol et
+    if (localStorage.getItem(STORAGE_KEY)) {
+        showAlreadyVotedState();
+    }
 });
+
+function showAlreadyVotedState() {
+    if (ratingCard) ratingCard.classList.add('hidden');
+    if (alreadyVotedCard) {
+        alreadyVotedCard.classList.remove('hidden');
+        if (votedBrandSub) {
+            votedBrandSub.textContent = `"${CONFIG.name}" işletmesini daha önce değerlendirdiniz.`;
+        }
+    }
+}
+
+function markAsVoted() {
+    localStorage.setItem(STORAGE_KEY, Date.now().toString());
+}
 
 // Yıldız Tıklama
 starBtns.forEach(btn => {
@@ -33,7 +59,6 @@ starBtns.forEach(btn => {
         selectedRating = parseInt(btn.getAttribute('data-value'), 10);
         highlightStars(selectedRating);
 
-        // Onay butonunu göster ve yıldız sayısını güncelle
         if (selectedStarCountEl) {
             selectedStarCountEl.textContent = selectedRating;
         }
@@ -53,17 +78,18 @@ function highlightStars(count) {
     });
 }
 
-// Onay Butonuna Basıldığında Mantığı Çalıştır
+// Onay Butonuna Basıldığında
 if (submitRatingBtn) {
     submitRatingBtn.addEventListener('click', () => {
         if (selectedRating === 0) return;
 
+        // Oy kullanıldı olarak hafızaya kaydet
+        markAsVoted();
+
         if (selectedRating === 1) {
-            // Sadece 1 Yıldız: Kriz kalkanını çalıştır ve modalı aç
             feedbackHint.textContent = "Geri bildiriminiz bizim için çok değerli.";
             crisisModal.classList.remove('hidden');
         } else {
-            // 2, 3, 4, 5 Yıldız: Google Haritalar'a yönlendir
             feedbackHint.textContent = "Google Haritalar'a yönlendiriliyorsunuz...";
             submitRatingBtn.disabled = true;
             submitRatingBtn.textContent = "Yönlendiriliyor...";
@@ -94,12 +120,15 @@ if (crisisForm) {
 
         crisisModal.classList.add('hidden');
         crisisForm.reset();
-        feedbackHint.textContent = "Geri bildiriminiz işletme sahibine iletildi. Teşekkür ederiz!";
+        
+        // Kriz mesajı sonrası oy kullanıldı ekranına geçir
+        showAlreadyVotedState();
     });
 }
 
 if (closeModalBtn) {
     closeModalBtn.addEventListener('click', () => {
         crisisModal.classList.add('hidden');
+        showAlreadyVotedState();
     });
 }
